@@ -19,4 +19,4 @@ serviceAccount:
 job:
   schedule: "*/30 * * * *"
   hostname: hopto-cluster-external.spirit-dev.net
-  ingressClass: traefik
+  ingressClass: traefik-external
