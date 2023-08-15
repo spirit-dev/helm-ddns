@@ -18,5 +18,5 @@ serviceAccount:
 
 job:
   schedule: "*/30 * * * *"
-  hostname: hopto-cluster-external.spirit-dev.net
-  ingressClass: traefik-external
+  hostname: hopto-tpi-external-public.spirit-dev.net
+  ingressClass: traefik-external-public
