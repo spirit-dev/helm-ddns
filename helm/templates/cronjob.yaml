@@ -21,7 +21,6 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  apt-get update && apt-get install -y curl &&
                   cat << EOF > /tmp/ingress.yml && kubectl apply -f /tmp/ingress.yml
                   apiVersion: networking.k8s.io/v1
                   kind: Ingress
