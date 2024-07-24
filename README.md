@@ -1,5 +1,7 @@
 # Welcome to ddns
 
+[![App Status](https://argocd-internal.spirit-dev.net/api/badge?name=ddns-turingpi&revision=true&showAppName=true)](https://argocd-internal.spirit-dev.net/applications/ddns-turingpi)
+
 ## Table of content
 
 - [Welcome to ddns](#welcome-to-ddns)
