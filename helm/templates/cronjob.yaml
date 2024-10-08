@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "ddns.fullname" . }}-external-public-cname
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "ddns.labels" . | nindent 4 }}
+spec:
+  schedule: "{{.Values.jobPublic.schedule}}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: {{ .Chart.Name }}-external-public-cname
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              securityContext:
+                runAsUser: 0
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  cat << EOF > /tmp/ingress.yml && kubectl apply -f /tmp/ingress.yml
+                  apiVersion: networking.k8s.io/v1
+                  kind: Ingress
+                  metadata:
+                    name: {{ include "ddns.fullname" . }}-external-public-cname
+                    annotations:
+                      external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME'
+                      external-dns.alpha.kubernetes.io/target: '$(curl --silent ifconfig.me)'
+                  spec:
+                    ingressClassName: '$INGRESS_CLASS'
+                    rules:
+                    - host: '$IP_HOSTNAME'
+                  EOF
+              env:
+                - name: IP_HOSTNAME
+                  value: {{ .Values.jobPublic.hostname }}
+                - name: INGRESS_CLASS
+                  value: {{ .Values.jobPublic.ingressClass }}
+          serviceAccountName: {{ include "ddns.fullname" . }}-external-public-cname
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: gitlab-registry-key

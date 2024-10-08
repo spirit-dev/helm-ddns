@@ -1,0 +1,1 @@
+1. CronJob will update the entry {{.Values.job.hostname}} on {{.Values.job.ingressClass}}. Scheduled: {{.Values.job.schedule}}
