@@ -4,9 +4,7 @@
 
 ## Table of content
 
-- [Welcome to ddns](#welcome-to-ddns)
-  - [Table of content](#table-of-content)
-  - [Installation process](#installation-process)
+[[_TOC_]]
 
 ## Installation process
 
