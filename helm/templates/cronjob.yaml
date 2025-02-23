@@ -21,6 +21,8 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+                  ifcfg_target=$(curl --silent ifconfig.me)
+                  echo "Using ip given by ifconfig.me: $ifcfg_target"
                   cat << EOF > /tmp/ingress.yml && kubectl apply -f /tmp/ingress.yml
                   apiVersion: networking.k8s.io/v1
                   kind: Ingress
@@ -28,7 +30,7 @@ spec:
                     name: {{ include "ddns.fullname" . }}-external-public-cname
                     annotations:
                       external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME'
-                      external-dns.alpha.kubernetes.io/target: '$(curl --silent ifconfig.me)'
+                      external-dns.alpha.kubernetes.io/target: '$ifcfg_target'
                   spec:
                     ingressClassName: '$INGRESS_CLASS'
                     rules:
