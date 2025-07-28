@@ -1,0 +1,11 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "ddns.fullname" . }}-external-private-cname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.jobPrivate.hostname }}
+spec:
+  ingressClassName: {{ .Values.jobPrivate.ingressClass }}
+  rules:
+  - host: {{ .Values.jobPrivate.hostname }}
