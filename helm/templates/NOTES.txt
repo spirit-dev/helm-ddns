@@ -1,1 +1,2 @@
-1. CronJob will update the entry {{.Values.job.hostname}} on {{.Values.job.ingressClass}}. Scheduled: {{.Values.job.schedule}}
+1. CronJob will update the entry {{.Values.jobPublic.hostname}} on {{.Values.jobPublic.ingressClass}}. Scheduled: {{.Values.jobPublic.schedule}}
+2. CronJob will update the entry {{.Values.jobPrivate.hostname}} on {{.Values.jobPrivate.ingressClass}}. Scheduled: {{.Values.jobPublic.schedule}}
