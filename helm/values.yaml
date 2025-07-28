@@ -3,6 +3,10 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  registry:
+    url:
+    username:
+    password:
 
 nameOverride: ""
 fullnameOverride: ""
@@ -16,7 +20,11 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-job:
-  schedule: "*/30 * * * *"
-  hostname: hopto-cluster-external.spirit-dev.net
-  ingressClass: traefik
+jobPublic:
+  schedule: "0 * * * *"
+  hostname: some.hostname.com
+  ingressClass: traefik-external-public
+
+jobPrivate:
+  hostname: some.hostname.com
+  ingressClass: traefik-external-private
