@@ -45,3 +45,4 @@ spec:
           restartPolicy: OnFailure
           imagePullSecrets:
             - name: gitlab-registry-key
+          priorityClassName: {{ .Values.priorityClassName | default "background-processing" }}
