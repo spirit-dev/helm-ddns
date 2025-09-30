@@ -1,0 +1,18 @@
+apiVersion: v2
+name: ddns
+description: A Helm chart for DynDns related assets
+home: https://gitlab.local.lan/infrastructure/helm/ddns
+sources:
+  - https://gitlab.local.lan/infrastructure/helm/ddns
+
+type: application
+
+# Note: This is a custom internal chart without external dependencies
+version: 1.0.3
+
+# Note: This is a custom internal application
+appVersion: "1.0.0"
+
+keywords:
+  - ddns
+  - dns
