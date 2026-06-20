@@ -22,8 +22,10 @@ serviceAccount:
 
 jobPublic:
   schedule: "0 * * * *"
-  hostname: some.hostname.com
   ingressClass: traefik-external-public
+  hostnames:
+    host1: some.hostname.com
+    host2: some.hostname.net
 
 jobPrivate:
   hostname: some.hostname.com

@@ -21,26 +21,48 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+
                   ifcfg_target=$(curl --silent ifconfig.me)
                   echo "Using ip given by ifconfig.me: $ifcfg_target"
+                  if ! echo "$ifcfg_target" | grep -qE '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$'; then
+                    echo "ERROR: ifconfig.me did not return a valid IP address: '$ifcfg_target'" >&2
+                    exit 1
+                  fi
+
                   cat << EOF > /tmp/ingress.yml && kubectl apply -f /tmp/ingress.yml
                   apiVersion: networking.k8s.io/v1
                   kind: Ingress
                   metadata:
-                    name: {{ include "ddns.fullname" . }}-external-public-cname
+                    name: {{ include "ddns.fullname" . }}-external-public-a
                     annotations:
-                      external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME'
+                      external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME_HOPTO'
                       external-dns.alpha.kubernetes.io/target: '$ifcfg_target'
                   spec:
                     ingressClassName: '$INGRESS_CLASS'
                     rules:
-                    - host: '$IP_HOSTNAME'
+                    - host: '$IP_HOSTNAME_HOPTO'
+                  EOF
+
+                  cat << EOF > /tmp/ingress-private.yml && kubectl apply -f /tmp/ingress-private.yml
+                  apiVersion: networking.k8s.io/v1
+                  kind: Ingress
+                  metadata:
+                    name: {{ include "ddns.fullname" . }}-vpn-home-a
+                    annotations:
+                      external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME_VPNHOME'
+                      external-dns.alpha.kubernetes.io/target: '$ifcfg_target'
+                  spec:
+                    ingressClassName: '$INGRESS_CLASS'
+                    rules:
+                    - host: '$IP_HOSTNAME_VPNHOME'
                   EOF
               env:
-                - name: IP_HOSTNAME
-                  value: {{ .Values.jobPublic.hostname }}
                 - name: INGRESS_CLASS
                   value: {{ .Values.jobPublic.ingressClass }}
+                - name: IP_HOSTNAME_HOPTO
+                  value: {{ .Values.jobPublic.hostnames.hopto }}
+                - name: IP_HOSTNAME_VPNHOME
+                  value: {{ .Values.jobPublic.hostnames.vpnhome }}
           serviceAccountName: {{ include "ddns.fullname" . }}-external-public-cname
           restartPolicy: OnFailure
           imagePullSecrets:
