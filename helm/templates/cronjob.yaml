@@ -35,8 +35,8 @@ spec:
                   metadata:
                     name: {{ include "ddns.fullname" . }}-external-public-a
                     annotations:
-                      external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME_HOPTO'
-                      external-dns.alpha.kubernetes.io/target: '$ifcfg_target'
+                      external-dns.kubernetes.io/hostname: '$IP_HOSTNAME_HOPTO'
+                      external-dns.kubernetes.io/target: '$ifcfg_target'
                   spec:
                     ingressClassName: '$INGRESS_CLASS'
                     rules:
@@ -49,8 +49,8 @@ spec:
                   metadata:
                     name: {{ include "ddns.fullname" . }}-vpn-home-a
                     annotations:
-                      external-dns.alpha.kubernetes.io/hostname: '$IP_HOSTNAME_VPNHOME'
-                      external-dns.alpha.kubernetes.io/target: '$ifcfg_target'
+                      external-dns.kubernetes.io/hostname: '$IP_HOSTNAME_VPNHOME'
+                      external-dns.kubernetes.io/target: '$ifcfg_target'
                   spec:
                     ingressClassName: '$INGRESS_CLASS'
                     rules:

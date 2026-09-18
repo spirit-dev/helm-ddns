@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: {{ include "ddns.fullname" . }}-external-private-a
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: {{ .Values.jobPrivate.hostname }}
+    external-dns.kubernetes.io/hostname: {{ .Values.jobPrivate.hostname }}
 spec:
   ingressClassName: {{ .Values.jobPrivate.ingressClass }}
   rules:
